@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(curl -s -I \"https://api.anthropic.com/v1/design/h/snt37h2fSPYaB45uFcdBjQ\")",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/snt37h2fSPYaB45uFcdBjQ\")",
+      "Bash(curl -s -H \"Accept: application/json\" \"https://api.anthropic.com/v1/design/h/snt37h2fSPYaB45uFcdBjQ\")",
+      "Bash(curl -s -H \"Accept: text/html\" \"https://api.anthropic.com/v1/design/h/snt37h2fSPYaB45uFcdBjQ\")",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/snt37h2fSPYaB45uFcdBjQ\" -o /tmp/design_file)",
+      "Read(//tmp/**)",
+      "Bash(xxd /tmp/design_file)",
+      "Bash(gunzip -c /tmp/design_file > /tmp/design_decompressed && file /tmp/design_decompressed && wc -c /tmp/design_decompressed)",
+      "Bash(tar -tf /tmp/design_decompressed)",
+      "Bash(tar -xf /tmp/design_decompressed -C /tmp/)",
+      "Bash(cp -r /tmp/willow-horse-advertising/project/parallax /Users/maxdad/gitrepos/portfolio-apps/willow-api/)",
+      "Bash(cp -r /tmp/willow-horse-advertising/project/uploads /Users/maxdad/gitrepos/portfolio-apps/willow-api/)",
+      "Bash(cp \"/tmp/willow-horse-advertising/project/Willow Listing.html\" \"/Users/maxdad/gitrepos/portfolio-apps/willow-api/Willow Listing.html\")",
+      "Bash(cp \"/tmp/willow-horse-advertising/project/Willow Admin.html\" \"/Users/maxdad/gitrepos/portfolio-apps/willow-api/Willow Admin.html\")"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}
