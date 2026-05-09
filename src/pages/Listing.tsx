@@ -2,7 +2,24 @@ import { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Listing.css'
 
-const STATS = [
+interface StatItem {
+  label: string
+  value: string
+}
+
+interface GalleryItem {
+  src: string
+  alt: string
+  featured?: boolean
+  style?: React.CSSProperties
+}
+
+interface LightboxState {
+  open: boolean
+  src: string
+}
+
+const STATS: StatItem[] = [
   { label: 'Age',      value: '3 Years' },
   { label: 'Breed',    value: 'Draft Cross' },
   { label: 'Color',    value: 'Bay' },
@@ -11,7 +28,7 @@ const STATS = [
   { label: 'Price',    value: '$3,500 OBO' },
 ]
 
-const TRAITS = [
+const TRAITS: StatItem[] = [
   { label: 'Temperament',       value: 'Curious & Smart' },
   { label: 'Training',          value: 'Partially Started' },
   { label: 'Ideal For',         value: 'Trainer / Project' },
@@ -20,7 +37,7 @@ const TRAITS = [
   { label: 'Current on Care',   value: 'Yes' },
 ]
 
-const GALLERY = [
+const GALLERY: GalleryItem[] = [
   { src: '/uploads/IMG_6728.jpeg',                                          alt: 'Willow full body',  featured: true },
   { src: '/uploads/IMG_5992.jpeg',                                          alt: 'Willow grazing' },
   { src: '/uploads/77017896598__8B93C3A6-0343-438B-A019-095AABED8D24.jpeg', alt: 'Willow close-up' },
@@ -29,25 +46,25 @@ const GALLERY = [
 ]
 
 export default function Listing() {
-  const heroRef = useRef(null)
-  const skyRef  = useRef(null)
-  const bgRef   = useRef(null)
-  const midRef  = useRef(null)
-  const fgRef   = useRef(null)
+  const heroRef = useRef<HTMLElement>(null)
+  const skyRef  = useRef<HTMLDivElement>(null)
+  const bgRef   = useRef<HTMLDivElement>(null)
+  const midRef  = useRef<HTMLDivElement>(null)
+  const fgRef   = useRef<HTMLDivElement>(null)
 
-  const [lightbox,   setLightbox]   = useState({ open: false, src: '' })
-  const [submitted,  setSubmitted]  = useState(false)
+  const [lightbox,    setLightbox]    = useState<LightboxState>({ open: false, src: '' })
+  const [submitted,   setSubmitted]   = useState(false)
   const [shareCopied, setShareCopied] = useState(false)
 
   // Parallax scroll
   useEffect(() => {
-    const layers = [
+    const layers: { ref: React.RefObject<HTMLDivElement | null>; speed: number }[] = [
       { ref: skyRef, speed: 0.5  },
       { ref: bgRef,  speed: 0.32 },
       { ref: midRef, speed: 0.16 },
       { ref: fgRef,  speed: 0.05 },
     ]
-    let rafId = null
+    let rafId: number | null = null
     const update = () => {
       const scrollY = window.pageYOffset
       const heroH   = heroRef.current?.offsetHeight ?? 0
@@ -81,12 +98,12 @@ export default function Listing() {
 
   // Lightbox keyboard close
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') closeLightbox() }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeLightbox() }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [])
 
-  const openLightbox = (src) => {
+  const openLightbox = (src: string) => {
     setLightbox({ open: true, src })
     document.body.style.overflow = 'hidden'
   }
@@ -95,9 +112,9 @@ export default function Listing() {
     document.body.style.overflow = ''
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const fd = new FormData(e.target)
+    const fd = new FormData(e.currentTarget)
     const data = {
       name:       fd.get('f-name'),
       email:      fd.get('f-email'),
@@ -111,7 +128,7 @@ export default function Listing() {
       status: 'New',
       id:     Date.now(),
     }
-    const existing = JSON.parse(localStorage.getItem('willow_inquiries') || '[]')
+    const existing = JSON.parse(localStorage.getItem('willow_inquiries') || '[]') as unknown[]
     existing.unshift(data)
     localStorage.setItem('willow_inquiries', JSON.stringify(existing))
     setSubmitted(true)

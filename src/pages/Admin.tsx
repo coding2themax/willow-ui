@@ -2,20 +2,49 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Admin.css'
 
-// ── Sample data ──────────────────────────────────────────────────────────────
-const SAMPLES = [
+interface Inquiry {
+  id: number
+  name: string
+  email: string
+  phone?: string
+  experience?: string
+  use?: string
+  source?: string
+  setup?: string
+  message?: string
+  date: string
+  status: string
+}
+
+interface Appointment {
+  name: string
+  date: string
+  month: string
+  time: string
+  notes: string
+  status: 'pending' | 'approved'
+}
+
+interface Tab {
+  id: string
+  label: string
+  count?: number
+  icon: React.ReactNode
+}
+
+const SAMPLES: Inquiry[] = [
   { name: 'Sarah Mitchell',  email: 'sarah.m@email.com',      phone: '(480) 555-0142', experience: 'Advanced',             use: 'Trail / Pleasure',    source: 'Facebook',      setup: '5-acre property, 3 other horses, private barn',       message: "I've been riding for 15 years and am looking for a gentle mare to trail ride. Willow sounds perfect — I love the draft temperament. Do you know her height?", date: 'May 2',  status: 'New',            id: 1 },
   { name: 'James Torres',    email: 'jtorres@horsepro.net',   phone: '(602) 555-0311', experience: 'Trainer / Professional', use: 'Project / Training',  source: 'DreamHorse',    setup: 'Training facility, 12 horses, arena',                 message: 'Professional trainer looking for a project. Draft crosses are my specialty. Would love to schedule a PPE and ride her if possible.',                             date: 'Apr 30', status: 'Contacted',       id: 2 },
   { name: 'Lisa Kaufmann',   email: 'lisa.k@gmail.com',       phone: '(480) 555-0889', experience: 'Intermediate',          use: 'Trail / Pleasure',    source: 'Instagram',     setup: 'Boarding stable nearby',                              message: "Willow is absolutely beautiful! I'm an intermediate rider looking for a calm, manageable horse. I'd love to come see her.",                                    date: 'Apr 28', status: 'Visit Scheduled', id: 3 },
   { name: 'Paul Reynolds',   email: 'p.reynolds@ranch.com',   phone: '(520) 555-0402', experience: 'Advanced',             use: 'Project / Training',  source: 'Word of mouth', setup: '15-acre ranch, 6 horses',                             message: "Heard about Willow from a mutual friend. Looking for a mare to breed and train. Would like to discuss her background further.",                                date: 'Apr 22', status: 'Visit Complete',  id: 4 },
 ]
 
-const APPTS = [
+const APPTS: Appointment[] = [
   { name: 'Lisa Kaufmann', date: '10', month: 'May', time: '2:00 PM',  notes: 'Intermediate rider, boarding nearby',   status: 'pending' },
   { name: 'James Torres',  date: '14', month: 'May', time: '11:00 AM', notes: 'Professional trainer, PPE requested', status: 'approved' },
 ]
 
-const STATUS_BADGE = {
+const STATUS_BADGE: Record<string, string> = {
   'New':            'badge-new',
   'Contacted':      'badge-contacted',
   'Visit Scheduled':'badge-scheduled',
@@ -23,8 +52,8 @@ const STATUS_BADGE = {
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
-function InquiriesTab({ inquiries, setInquiries }) {
-  const [expandedId,   setExpandedId]   = useState(null)
+function InquiriesTab({ inquiries, setInquiries }: { inquiries: Inquiry[]; setInquiries: React.Dispatch<React.SetStateAction<Inquiry[]>> }) {
+  const [expandedId,   setExpandedId]   = useState<number | null>(null)
   const [filterText,   setFilterText]   = useState('')
   const [filterStatus, setFilterStatus] = useState('')
 
@@ -38,10 +67,10 @@ function InquiriesTab({ inquiries, setInquiries }) {
   const scheduledCount = inquiries.filter(i => i.status === 'Visit Scheduled').length
   const completeCount  = inquiries.filter(i => i.status === 'Visit Complete').length
 
-  const updateStatus = (id, status) => {
+  const updateStatus = (id: number, status: string) => {
     setInquiries(prev => prev.map(i => i.id === id ? { ...i, status } : i))
   }
-  const deleteInquiry = (id) => {
+  const deleteInquiry = (id: number) => {
     setInquiries(prev => prev.filter(i => i.id !== id))
     if (expandedId === id) setExpandedId(null)
   }
@@ -146,7 +175,7 @@ function InquiriesTab({ inquiries, setInquiries }) {
                     <td>{inq.experience || '—'}</td>
                     <td>{inq.use || '—'}</td>
                     <td>{inq.source || '—'}</td>
-                    <td><span className={`badge ${STATUS_BADGE[inq.status] || 'badge-new'}`}>{inq.status}</span></td>
+                    <td><span className={`badge ${STATUS_BADGE[inq.status] ?? 'badge-new'}`}>{inq.status}</span></td>
                     <td>{inq.date}</td>
                     <td style={{ color: 'var(--gold)', fontSize: '1rem', paddingRight: '1.5rem' }}>
                       {isExpanded ? '▲' : '▼'}
@@ -194,16 +223,16 @@ function InquiriesTab({ inquiries, setInquiries }) {
   )
 }
 
-function AppointmentsTab({ inquiries }) {
-  const [appts, setAppts] = useState(() => {
+function AppointmentsTab({ inquiries }: { inquiries: Inquiry[] }) {
+  const [appts, setAppts] = useState<Appointment[]>(() => {
     const scheduled = inquiries.filter(i => i.status === 'Visit Scheduled')
     return scheduled.length
-      ? scheduled.map(inq => ({ name: inq.name, date: '—', month: '—', time: 'TBD', notes: inq.setup || '', status: 'pending' }))
+      ? scheduled.map(inq => ({ name: inq.name, date: '—', month: '—', time: 'TBD', notes: inq.setup ?? '', status: 'pending' as const }))
       : APPTS
   })
 
-  const approve = (i) => setAppts(prev => prev.map((a, idx) => idx === i ? { ...a, status: 'approved' } : a))
-  const decline = (i) => setAppts(prev => prev.filter((_, idx) => idx !== i))
+  const approve = (i: number) => setAppts(prev => prev.map((a, idx) => idx === i ? { ...a, status: 'approved' as const } : a))
+  const decline = (i: number) => setAppts(prev => prev.filter((_, idx) => idx !== i))
 
   return (
     <div>
@@ -247,13 +276,18 @@ function AppointmentsTab({ inquiries }) {
   )
 }
 
+interface Photo {
+  src: string
+  alt: string
+}
+
 function GalleryTab() {
-  const INITIAL = [
+  const INITIAL: Photo[] = [
     { src: '/uploads/IMG_6728.jpeg', alt: 'Willow' },
     { src: '/uploads/IMG_5992.jpeg', alt: 'Willow' },
     { src: '/uploads/77017896598__8B93C3A6-0343-438B-A019-095AABED8D24.jpeg', alt: 'Willow' },
   ]
-  const [photos, setPhotos] = useState(INITIAL)
+  const [photos, setPhotos] = useState<Photo[]>(INITIAL)
 
   return (
     <div>
@@ -295,15 +329,15 @@ function GalleryTab() {
   )
 }
 
-function AnalyticsTab({ inquiries }) {
-  const sources   = {}
-  const exps      = {}
-  const statuses  = { New: 0, Contacted: 0, 'Visit Scheduled': 0, 'Visit Complete': 0 }
+function AnalyticsTab({ inquiries }: { inquiries: Inquiry[] }) {
+  const sources:  Record<string, number> = {}
+  const exps:     Record<string, number> = {}
+  const statuses: Record<string, number> = { New: 0, Contacted: 0, 'Visit Scheduled': 0, 'Visit Complete': 0 }
   const thisWeek  = ['May 2', 'May 3', 'May 1', 'Apr 30']
 
   inquiries.forEach(i => {
-    if (i.source)     sources[i.source]     = (sources[i.source]     || 0) + 1
-    if (i.experience) exps[i.experience]    = (exps[i.experience]    || 0) + 1
+    if (i.source)     sources[i.source]     = (sources[i.source]     ?? 0) + 1
+    if (i.experience) exps[i.experience]    = (exps[i.experience]    ?? 0) + 1
     if (i.status in statuses) statuses[i.status]++
   })
 
@@ -398,8 +432,8 @@ function AnalyticsTab({ inquiries }) {
 // ── Main Admin component ──────────────────────────────────────────────────────
 export default function Admin() {
   const [tab, setTab] = useState('inquiries')
-  const [inquiries, setInquiries] = useState(() =>
-    JSON.parse(localStorage.getItem('willow_inquiries') || '[]')
+  const [inquiries, setInquiries] = useState<Inquiry[]>(() =>
+    JSON.parse(localStorage.getItem('willow_inquiries') ?? '[]') as Inquiry[]
   )
 
   useEffect(() => {
@@ -408,7 +442,7 @@ export default function Admin() {
 
   const newCount = inquiries.filter(i => i.status === 'New').length || inquiries.length
 
-  const tabs = [
+  const tabs: Tab[] = [
     {
       id: 'inquiries',
       label: 'Inquiries',
