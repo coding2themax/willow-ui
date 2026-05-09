@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 
+const IS_SOLD = import.meta.env.VITE_SOLD === 'true'
+
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null)
   const skyRef  = useRef<HTMLDivElement>(null)
@@ -41,6 +43,18 @@ export default function Hero() {
       <div className="plx-layer plx-mid" ref={midRef} />
       <div className="plx-layer plx-fg"  ref={fgRef} />
       <div className="hero-overlay" />
+      {IS_SOLD && (
+        <div style={{
+          position: 'absolute', top: '28px', right: '5vw', zIndex: 7,
+          background: '#b91c1c', color: '#fff',
+          fontFamily: 'var(--font-sans)',
+          fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+          fontWeight: 700, padding: '6px 18px',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
+        }}>
+          SOLD
+        </div>
+      )}
       <div className="hero-content">
         <div className="hero-left">
           <div className="hero-eyebrow">Chandler, Arizona · For Sale</div>

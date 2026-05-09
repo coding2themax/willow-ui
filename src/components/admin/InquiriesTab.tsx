@@ -1,22 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Inquiry, STATUS_BADGE } from './types'
-
-const SAMPLES: Inquiry[] = [
-  { name: 'Sarah Mitchell',  email: 'sarah.m@email.com',      phone: '(480) 555-0142', experience: 'Advanced',               use: 'Trail / Pleasure',   source: 'Facebook',      setup: '5-acre property, 3 other horses, private barn',  message: "I've been riding for 15 years and am looking for a gentle mare to trail ride. Willow sounds perfect — I love the draft temperament. Do you know her height?", date: 'May 2',  status: 'New',            id: 1 },
-  { name: 'James Torres',    email: 'jtorres@horsepro.net',   phone: '(602) 555-0311', experience: 'Trainer / Professional', use: 'Project / Training', source: 'DreamHorse',    setup: 'Training facility, 12 horses, arena',            message: 'Professional trainer looking for a project. Draft crosses are my specialty. Would love to schedule a PPE and ride her if possible.',                             date: 'Apr 30', status: 'Contacted',       id: 2 },
-  { name: 'Lisa Kaufmann',   email: 'lisa.k@gmail.com',       phone: '(480) 555-0889', experience: 'Intermediate',           use: 'Trail / Pleasure',   source: 'Instagram',     setup: 'Boarding stable nearby',                         message: "Willow is absolutely beautiful! I'm an intermediate rider looking for a calm, manageable horse. I'd love to come see her.",                                    date: 'Apr 28', status: 'Visit Scheduled', id: 3 },
-  { name: 'Paul Reynolds',   email: 'p.reynolds@ranch.com',   phone: '(520) 555-0402', experience: 'Advanced',               use: 'Project / Training', source: 'Word of mouth', setup: '15-acre ranch, 6 horses',                        message: "Heard about Willow from a mutual friend. Looking for a mare to breed and train. Would like to discuss her background further.",                                date: 'Apr 22', status: 'Visit Complete',  id: 4 },
-]
+import { getInquiries, updateInquiryStatus, deleteInquiry as apiDeleteInquiry } from '../../api/inquiries'
+import Spinner from '../ui/Spinner'
+import ErrorBanner from '../ui/ErrorBanner'
 
 interface Props {
   inquiries: Inquiry[]
   setInquiries: React.Dispatch<React.SetStateAction<Inquiry[]>>
+  loading: boolean
+  error: string | null
 }
 
-export default function InquiriesTab({ inquiries, setInquiries }: Props) {
+export default function InquiriesTab({ inquiries, setInquiries, loading, error }: Props) {
   const [expandedId,   setExpandedId]   = useState<number | null>(null)
   const [filterText,   setFilterText]   = useState('')
   const [filterStatus, setFilterStatus] = useState('')
+  const [tabError,     setTabError]     = useState<string | null>(null)
 
   const filtered = inquiries.filter(inq => {
     const text = (inq.name + inq.email).toLowerCase()
@@ -28,10 +27,39 @@ export default function InquiriesTab({ inquiries, setInquiries }: Props) {
   const scheduledCount = inquiries.filter(i => i.status === 'Visit Scheduled').length
   const completeCount  = inquiries.filter(i => i.status === 'Visit Complete').length
 
-  const updateStatus  = (id: number, status: string) => setInquiries(prev => prev.map(i => i.id === id ? { ...i, status } : i))
-  const deleteInquiry = (id: number) => { setInquiries(prev => prev.filter(i => i.id !== id)); if (expandedId === id) setExpandedId(null) }
-  const addSample     = () => { const s = { ...SAMPLES[inquiries.length % SAMPLES.length], id: Date.now(), date: 'May 3' }; setInquiries(prev => [s, ...prev]) }
-  const clearAll      = () => { if (window.confirm('Clear all inquiries?')) { setInquiries([]); setExpandedId(null) } }
+  const updateStatus = async (id: number, status: string) => {
+    try {
+      const updated = await updateInquiryStatus(id, status)
+      setInquiries(prev => prev.map(i => i.id === id ? updated : i))
+    } catch (err) {
+      setTabError(err instanceof Error ? err.message : 'Failed to update status.')
+    }
+  }
+
+  const handleDelete = async (id: number) => {
+    try {
+      await apiDeleteInquiry(id)
+      setInquiries(prev => prev.filter(i => i.id !== id))
+      if (expandedId === id) setExpandedId(null)
+    } catch (err) {
+      setTabError(err instanceof Error ? err.message : 'Failed to delete inquiry.')
+    }
+  }
+
+  // Reload from API when tab mounts
+  useEffect(() => {
+    getInquiries()
+      .then(setInquiries)
+      .catch(() => { /* parent already surfaces load errors */ })
+  }, [setInquiries])
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '3rem', color: 'var(--text-mid)' }}>
+        <Spinner /> Loading inquiries…
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -40,10 +68,14 @@ export default function InquiriesTab({ inquiries, setInquiries }: Props) {
           <div className="page-eyebrow">Willow</div>
           <div className="page-title">Inquiries</div>
         </div>
-        <div className="page-header-spacer" />
-        <button className="btn btn-secondary" onClick={addSample}>+ Add Sample</button>
-        <button className="btn btn-ghost" onClick={clearAll}>Clear All</button>
       </div>
+
+      {(error ?? tabError) && (
+        <ErrorBanner
+          message={(error ?? tabError)!}
+          onDismiss={() => setTabError(null)}
+        />
+      )}
 
       <div className="stat-cards">
         <div className="stat-card">
@@ -97,9 +129,6 @@ export default function InquiriesTab({ inquiries, setInquiries }: Props) {
             <div className="empty-icon">✉️</div>
             <div className="empty-title">No inquiries yet</div>
             <div className="empty-text">When someone fills out the form they'll appear here.</div>
-            <button className="btn btn-primary" style={{ margin: '1.5rem auto 0', display: 'flex' }} onClick={addSample}>
-              + Add Sample Inquiry
-            </button>
           </div>
         ) : (
           <table>
@@ -155,7 +184,7 @@ export default function InquiriesTab({ inquiries, setInquiries }: Props) {
                             <a href={`mailto:${inq.email}`} className="btn btn-primary" style={{ textDecoration: 'none' }}>
                               Reply via Email
                             </a>
-                            <button className="btn btn-ghost" onClick={() => deleteInquiry(inq.id)}>Delete</button>
+                            <button className="btn btn-ghost" onClick={() => handleDelete(inq.id)}>Delete</button>
                           </div>
                         </div>
                       </td>

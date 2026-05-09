@@ -13,12 +13,20 @@ export interface Inquiry {
 }
 
 export interface Appointment {
+  id: number
   name: string
   date: string
   month: string
   time: string
   notes: string
   status: 'pending' | 'approved'
+}
+
+export interface Photo {
+  id: string
+  src: string
+  alt: string
+  featured?: boolean
 }
 
 export const STATUS_BADGE: Record<string, string> = {
