@@ -15,7 +15,15 @@
       "Bash(cp -r /tmp/willow-horse-advertising/project/parallax /Users/maxdad/gitrepos/portfolio-apps/willow-api/)",
       "Bash(cp -r /tmp/willow-horse-advertising/project/uploads /Users/maxdad/gitrepos/portfolio-apps/willow-api/)",
       "Bash(cp \"/tmp/willow-horse-advertising/project/Willow Listing.html\" \"/Users/maxdad/gitrepos/portfolio-apps/willow-api/Willow Listing.html\")",
-      "Bash(cp \"/tmp/willow-horse-advertising/project/Willow Admin.html\" \"/Users/maxdad/gitrepos/portfolio-apps/willow-api/Willow Admin.html\")"
+      "Bash(cp \"/tmp/willow-horse-advertising/project/Willow Admin.html\" \"/Users/maxdad/gitrepos/portfolio-apps/willow-api/Willow Admin.html\")",
+      "Bash(cp -r /Users/maxdad/gitrepos/portfolio-apps/willow-api/parallax /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/parallax)",
+      "Bash(cp -r /Users/maxdad/gitrepos/portfolio-apps/willow-api/uploads /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(pnpm --version)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(pnpm build *)"
     ],
     "additionalDirectories": [
       "/tmp"
