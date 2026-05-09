@@ -1,0 +1,142 @@
+.progress-page {
+  min-height: 100vh;
+  background: #f6f1e8;
+  padding: 2rem 1rem;
+}
+
+.progress-shell {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.progress-topbar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #5a4330;
+}
+
+.progress-card {
+  background: #fff;
+  border: 1px solid #e9dfcf;
+  padding: 1.5rem;
+}
+
+.progress-eyebrow {
+  color: #b8822a;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.progress-title {
+  margin: 0.4rem 0 1rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  color: #2c1f14;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  color: #5a4330;
+  font-size: 0.84rem;
+}
+
+.progress-percent {
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #efe6d8;
+  margin-bottom: 1rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #b8822a;
+  transition: width 0.2s ease;
+}
+
+.progress-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.progress-input {
+  flex: 1;
+  height: 38px;
+  border: 1px solid #e2d7c5;
+  padding: 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.progress-btn {
+  height: 38px;
+  border: none;
+  background: #2c1f14;
+  color: #fff;
+  padding: 0 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+}
+
+.progress-empty {
+  color: #7f6a59;
+  font-style: italic;
+}
+
+.progress-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #eee2d3;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee2d3;
+  padding: 0.75rem 0;
+}
+
+.progress-item-left {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  color: #3f3023;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.progress-remove,
+.progress-clear {
+  border: 1px solid #e2d7c5;
+  background: #fff;
+  color: #7f6a59;
+  height: 30px;
+  cursor: pointer;
+  padding: 0 0.7rem;
+}
+
+.progress-clear {
+  margin-top: 1rem;
+}

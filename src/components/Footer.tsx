@@ -36,6 +36,9 @@ export default function Footer() {
           </svg>
           Admin
         </Link>
+        <Link to="/progress" className="share-btn" style={{ textDecoration: 'none' }}>
+          Progress
+        </Link>
       </div>
       <div className="footer-copy">© 2026 · All rights reserved</div>
     </footer>
