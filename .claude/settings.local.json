@@ -25,7 +25,8 @@
       "Bash(pnpm approve-builds *)",
       "Bash(pnpm build *)",
       "Bash(pnpm add *)",
-      "Bash(pnpm exec *)"
+      "Bash(pnpm exec *)",
+      "Bash(exiftool /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/77017896598__8B93C3A6-0343-438B-A019-095AABED8D24.jpeg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/IMG_5992.jpeg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/IMG_6728.jpeg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/parallax/background.jpg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/parallax/foreground.jpg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/parallax/midground.jpg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/parallax/sky.jpg)"
     ],
     "additionalDirectories": [
       "/tmp"

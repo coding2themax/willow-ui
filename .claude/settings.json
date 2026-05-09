@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips --deleteProperty all /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/77017896598__8B93C3A6-0343-438B-A019-095AABED8D24.jpeg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/IMG_5992.jpeg /Users/maxdad/gitrepos/portfolio-apps/willow-api/public/uploads/IMG_6728.jpeg)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
