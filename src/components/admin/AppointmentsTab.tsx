@@ -1,25 +1,38 @@
-import { useState } from 'react'
-import { Inquiry, Appointment } from './types'
+import { useState, useEffect } from 'react'
+import { Appointment } from './types'
+import { getAppointments, approveAppointment, declineAppointment } from '../../api/appointments'
+import Spinner from '../ui/Spinner'
+import ErrorBanner from '../ui/ErrorBanner'
 
-const APPTS: Appointment[] = [
-  { name: 'Lisa Kaufmann', date: '10', month: 'May', time: '2:00 PM',  notes: 'Intermediate rider, boarding nearby', status: 'pending' },
-  { name: 'James Torres',  date: '14', month: 'May', time: '11:00 AM', notes: 'Professional trainer, PPE requested', status: 'approved' },
-]
+export default function AppointmentsTab() {
+  const [appts,   setAppts]   = useState<Appointment[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error,   setError]   = useState<string | null>(null)
 
-interface Props {
-  inquiries: Inquiry[]
-}
+  useEffect(() => {
+    getAppointments()
+      .then(setAppts)
+      .catch(err => setError(err instanceof Error ? err.message : 'Failed to load appointments.'))
+      .finally(() => setLoading(false))
+  }, [])
 
-export default function AppointmentsTab({ inquiries }: Props) {
-  const [appts, setAppts] = useState<Appointment[]>(() => {
-    const scheduled = inquiries.filter(i => i.status === 'Visit Scheduled')
-    return scheduled.length
-      ? scheduled.map(inq => ({ name: inq.name, date: '—', month: '—', time: 'TBD', notes: inq.setup ?? '', status: 'pending' as const }))
-      : APPTS
-  })
+  const approve = async (id: number) => {
+    try {
+      const updated = await approveAppointment(id)
+      setAppts(prev => prev.map(a => a.id === id ? updated : a))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to approve appointment.')
+    }
+  }
 
-  const approve = (i: number) => setAppts(prev => prev.map((a, idx) => idx === i ? { ...a, status: 'approved' as const } : a))
-  const decline = (i: number) => setAppts(prev => prev.filter((_, idx) => idx !== i))
+  const decline = async (id: number) => {
+    try {
+      await declineAppointment(id)
+      setAppts(prev => prev.filter(a => a.id !== id))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to decline appointment.')
+    }
+  }
 
   return (
     <div>
@@ -29,7 +42,14 @@ export default function AppointmentsTab({ inquiries }: Props) {
           <div className="page-title">Appointments</div>
         </div>
       </div>
-      {appts.length === 0 ? (
+
+      {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
+
+      {loading ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '3rem', color: 'var(--text-mid)' }}>
+          <Spinner /> Loading appointments…
+        </div>
+      ) : appts.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📅</div>
           <div className="empty-title">No appointments yet</div>
@@ -37,8 +57,8 @@ export default function AppointmentsTab({ inquiries }: Props) {
         </div>
       ) : (
         <div className="appt-list">
-          {appts.map((a, i) => (
-            <div key={i} className="appt-card">
+          {appts.map(a => (
+            <div key={a.id} className="appt-card">
               <div className="appt-date">
                 <div className="appt-date-day">{a.date}</div>
                 <div className="appt-date-month">{a.month}</div>
@@ -52,8 +72,8 @@ export default function AppointmentsTab({ inquiries }: Props) {
                 {a.status}
               </span>
               <div className="appt-actions">
-                <button className="btn-approve" onClick={() => approve(i)}>✓ Approve</button>
-                <button className="btn-decline" onClick={() => decline(i)}>✕ Decline</button>
+                <button className="btn-approve" onClick={() => approve(a.id)}>✓ Approve</button>
+                <button className="btn-decline" onClick={() => decline(a.id)}>✕ Decline</button>
               </div>
             </div>
           ))}

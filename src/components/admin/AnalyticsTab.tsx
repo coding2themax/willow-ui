@@ -1,12 +1,23 @@
+import { useState, useEffect } from 'react'
 import { Inquiry, STATUS_BADGE } from './types'
+import { getAnalytics } from '../../api/analytics'
+import Spinner from '../ui/Spinner'
+import ErrorBanner from '../ui/ErrorBanner'
 
 const THIS_WEEK = ['May 2', 'May 3', 'May 1', 'Apr 30']
 
-interface Props {
-  inquiries: Inquiry[]
-}
+export default function AnalyticsTab() {
+  const [inquiries, setInquiries] = useState<Inquiry[]>([])
+  const [loading,   setLoading]   = useState(true)
+  const [error,     setError]     = useState<string | null>(null)
 
-export default function AnalyticsTab({ inquiries }: Props) {
+  useEffect(() => {
+    getAnalytics()
+      .then(data => setInquiries(data.inquiries))
+      .catch(err => setError(err instanceof Error ? err.message : 'Failed to load analytics.'))
+      .finally(() => setLoading(false))
+  }, [])
+
   const sources:  Record<string, number> = {}
   const exps:     Record<string, number> = {}
   const statuses: Record<string, number> = { New: 0, Contacted: 0, 'Visit Scheduled': 0, 'Visit Complete': 0 }
@@ -31,76 +42,86 @@ export default function AnalyticsTab({ inquiries }: Props) {
         </div>
       </div>
 
-      <div className="stat-cards" style={{ marginBottom: '1.5rem' }}>
-        <div className="stat-card">
-          <div className="stat-card-label">Total Inquiries</div>
-          <div className="stat-card-value">{inquiries.length}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">This Week</div>
-          <div className="stat-card-value">{weekCnt}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Avg Response</div>
-          <div className="stat-card-value">—</div>
-          <div className="stat-card-sub">Set manually</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Top Source</div>
-          <div className="stat-card-value" style={{ fontSize: '1.1rem', marginTop: '0.5rem' }}>
-            {topSrc ? topSrc[0] : '—'}
-          </div>
-        </div>
-      </div>
+      {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
 
-      <div className="analytics-grid">
-        <div className="analytics-card">
-          <div className="analytics-card-title">Inquiries by Source</div>
-          <div className="bar-chart">
-            {Object.keys(sources).length === 0
-              ? <p className="analytics-empty">Submit an inquiry to see data.</p>
-              : Object.entries(sources).map(([k, v]) => (
-                <div key={k} className="bar-row">
-                  <div className="bar-label">{k}</div>
-                  <div className="bar-track"><div className="bar-fill" style={{ width: `${Math.round(v / maxS * 100)}%` }} /></div>
-                  <div className="bar-val">{v}</div>
-                </div>
-              ))
-            }
-          </div>
+      {loading ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '3rem', color: 'var(--text-mid)' }}>
+          <Spinner /> Loading analytics…
         </div>
+      ) : (
+        <>
+          <div className="stat-cards" style={{ marginBottom: '1.5rem' }}>
+            <div className="stat-card">
+              <div className="stat-card-label">Total Inquiries</div>
+              <div className="stat-card-value">{inquiries.length}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-card-label">This Week</div>
+              <div className="stat-card-value">{weekCnt}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-card-label">Avg Response</div>
+              <div className="stat-card-value">—</div>
+              <div className="stat-card-sub">Set manually</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-card-label">Top Source</div>
+              <div className="stat-card-value" style={{ fontSize: '1.1rem', marginTop: '0.5rem' }}>
+                {topSrc ? topSrc[0] : '—'}
+              </div>
+            </div>
+          </div>
 
-        <div className="analytics-card">
-          <div className="analytics-card-title">Inquiries by Experience Level</div>
-          <div className="bar-chart">
-            {Object.keys(exps).length === 0
-              ? <p className="analytics-empty">Submit an inquiry to see data.</p>
-              : Object.entries(exps).map(([k, v]) => (
-                <div key={k} className="bar-row">
-                  <div className="bar-label">{k}</div>
-                  <div className="bar-track"><div className="bar-fill" style={{ width: `${Math.round(v / maxE * 100)}%`, background: '#8a6545' }} /></div>
-                  <div className="bar-val">{v}</div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
+          <div className="analytics-grid">
+            <div className="analytics-card">
+              <div className="analytics-card-title">Inquiries by Source</div>
+              <div className="bar-chart">
+                {Object.keys(sources).length === 0
+                  ? <p className="analytics-empty">Submit an inquiry to see data.</p>
+                  : Object.entries(sources).map(([k, v]) => (
+                    <div key={k} className="bar-row">
+                      <div className="bar-label">{k}</div>
+                      <div className="bar-track"><div className="bar-fill" style={{ width: `${Math.round(v / maxS * 100)}%` }} /></div>
+                      <div className="bar-val">{v}</div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
 
-        <div className="analytics-card" style={{ gridColumn: '1 / -1' }}>
-          <div className="analytics-card-title">Status Breakdown</div>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            {inquiries.length === 0
-              ? <p className="analytics-empty">Submit an inquiry to see data.</p>
-              : Object.entries(statuses).map(([k, v]) => (
-                <div key={k} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span className={`badge ${STATUS_BADGE[k]}`}>{k}</span>
-                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--text)' }}>{v}</span>
-                </div>
-              ))
-            }
+            <div className="analytics-card">
+              <div className="analytics-card-title">Inquiries by Experience Level</div>
+              <div className="bar-chart">
+                {Object.keys(exps).length === 0
+                  ? <p className="analytics-empty">Submit an inquiry to see data.</p>
+                  : Object.entries(exps).map(([k, v]) => (
+                    <div key={k} className="bar-row">
+                      <div className="bar-label">{k}</div>
+                      <div className="bar-track"><div className="bar-fill" style={{ width: `${Math.round(v / maxE * 100)}%`, background: '#8a6545' }} /></div>
+                      <div className="bar-val">{v}</div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div className="analytics-card" style={{ gridColumn: '1 / -1' }}>
+              <div className="analytics-card-title">Status Breakdown</div>
+              <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                {inquiries.length === 0
+                  ? <p className="analytics-empty">Submit an inquiry to see data.</p>
+                  : Object.entries(statuses).map(([k, v]) => (
+                    <div key={k} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span className={`badge ${STATUS_BADGE[k]}`}>{k}</span>
+                      <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--text)' }}>{v}</span>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   )
 }
