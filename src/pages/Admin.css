@@ -330,7 +330,7 @@ td.name-cell { color: var(--text); font-weight: 400; }
 }
 .bar-chart { display: flex; flex-direction: column; gap: 8px; }
 .bar-row { display: flex; align-items: center; gap: 10px; }
-.bar-label { font-size: 0.75rem; color: var(--text-mid); width: 120px; flex-shrink: 0; }
+.bar-label { font-size: 0.75rem; color: var(--text-mid); width: 80px; flex-shrink: 0; }
 .bar-track { flex: 1; height: 8px; background: var(--surface3); border-radius: 1px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 1px; background: var(--gold); transition: width 0.8s ease; }
 .bar-val { font-size: 0.72rem; color: var(--text-light); width: 20px; text-align: right; flex-shrink: 0; }
