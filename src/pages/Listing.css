@@ -62,34 +62,24 @@ nav {
 .plx-sky {
   z-index: 1;
   background-image: url('/parallax/sky.jpg');
-  background-position: center top;
+  background-position: center 20%;
 }
 .plx-bg {
   z-index: 2;
   background-image: url('/parallax/background.jpg');
-  background-position: center 35%;
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 22%, black 38%, black 65%, transparent 82%);
-  mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 22%, black 38%, black 65%, transparent 82%);
+  background-position: center 40%;
 }
 .plx-mid {
   z-index: 3;
   background-image: url('/parallax/midground.jpg');
-  background-position: center 55%;
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 40%, black 56%, black 100%);
-  mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 40%, black 56%, black 100%);
+  background-position: center 50%;
 }
 .plx-fg {
   z-index: 4;
   background-image: url('/parallax/foreground.jpg');
-  background-position: center bottom;
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 56%, rgba(0,0,0,0.5) 67%, black 76%, black 100%);
-  mask-image: linear-gradient(to bottom,
-    transparent 0%, transparent 56%, rgba(0,0,0,0.5) 67%, black 76%, black 100%);
+  background-position: center 80%;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
 }
 .hero-overlay {
   position: absolute; inset: 0; z-index: 5;
@@ -264,6 +254,7 @@ section { padding: 6rem 5vw; }
   text-wrap: pretty;
 }
 .about-text + .about-text { margin-top: 1rem; }
+.inquiry-intro .about-text { font-size: 0.95rem; }
 .traits {
   display: grid;
   grid-template-columns: 1fr 1fr;

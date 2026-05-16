@@ -11,10 +11,10 @@ export default function Hero() {
 
   useEffect(() => {
     const layers: { ref: React.RefObject<HTMLDivElement | null>; speed: number }[] = [
-      { ref: skyRef, speed: 0.5  },
-      { ref: bgRef,  speed: 0.32 },
-      { ref: midRef, speed: 0.16 },
-      { ref: fgRef,  speed: 0.05 },
+      { ref: skyRef, speed: 0.55 },
+      { ref: bgRef,  speed: 0.35 },
+      { ref: midRef, speed: 0.18 },
+      { ref: fgRef,  speed: 0.06 },
     ]
     let rafId: number | null = null
     const update = () => {
