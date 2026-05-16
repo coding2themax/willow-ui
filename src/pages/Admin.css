@@ -12,8 +12,8 @@
 
 /* Admin-scoped CSS variables */
 .admin-app {
-  --bg: #1a1208;
-  --bg2: #211809;
+  --bg: #1e0f08;
+  --bg2: #2a170c;
   --bg3: #2c1f14;
   --surface: #fff;
   --surface2: #faf6ef;
@@ -36,9 +36,8 @@
   flex-shrink: 0; z-index: 10;
 }
 .topbar-logo {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.4rem; font-weight: 300;
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 400;
   color: var(--cream);
   text-decoration: none;
 }
@@ -114,8 +113,8 @@
   color: var(--gold); font-weight: 500; margin-bottom: 0.35rem;
 }
 .page-title {
-  font-family: var(--font-serif);
-  font-style: italic; font-size: 1.75rem; font-weight: 300;
+  font-family: var(--font-display);
+  font-size: 1.75rem; font-weight: 400;
   color: var(--text); line-height: 1;
 }
 .page-header-spacer { flex: 1; }

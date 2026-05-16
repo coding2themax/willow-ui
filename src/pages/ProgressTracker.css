@@ -1,6 +1,6 @@
 .progress-page {
   min-height: 100vh;
-  background: #f6f1e8;
+  background: #f4ead7;
   padding: 2rem 1rem;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .progress-eyebrow {
-  color: #b8822a;
+  color: #b8551f;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -38,10 +38,9 @@
 
 .progress-title {
   margin: 0.4rem 0 1rem;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  color: #2c1f14;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: #3a1f12;
 }
 
 .progress-stats {
@@ -65,7 +64,7 @@
 
 .progress-bar-fill {
   height: 100%;
-  background: #b8822a;
+  background: #b8551f;
   transition: width 0.2s ease;
 }
 
@@ -86,7 +85,7 @@
 .progress-btn {
   height: 38px;
   border: none;
-  background: #2c1f14;
+  background: #3a1f12;
   color: #fff;
   padding: 0 1rem;
   cursor: pointer;
