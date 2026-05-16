@@ -4,6 +4,8 @@ A horse-selling microsite built with React, TypeScript, and Vite. Features a pub
 
 [![codecov](https://codecov.io/gh/coding2themax/willow-ui/graph/badge.svg?token=RUJF0BT4AG)](https://codecov.io/gh/coding2themax/willow-ui)![GitHub License](https://img.shields.io/github/license/coding2themax/willow-ui)
 
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)![React Router](https://img.shields.io/badge/React_Router-6-CA4245?logo=reactrouter&logoColor=white)![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)
+
 ## Pages
 
 **Listing** (`/`) — the buyer-facing page:
@@ -30,7 +32,7 @@ A horse-selling microsite built with React, TypeScript, and Vite. Features a pub
 | React           | 18              |
 | TypeScript      | 6               |
 | React Router    | 6               |
-| Vite            | 5               |
+| Vite            | 6               |
 | MSW             | 2 (dev mocking) |
 | ESLint          | 9               |
 | Package manager | npm             |
