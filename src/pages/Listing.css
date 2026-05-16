@@ -55,6 +55,7 @@ nav {
   inset: -30% 0;
   width: 100%;
   background-size: cover;
+  background-position-x: center;
   background-repeat: no-repeat;
   will-change: transform;
 }
@@ -80,6 +81,14 @@ nav {
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
 }
+
+/* Parallax layers are portrait assets; fitting by height on wider screens avoids the "squashed" feel. */
+@media (min-aspect-ratio: 5/4) {
+  .plx-layer {
+    background-size: auto 100%;
+  }
+}
+
 .hero-overlay {
   position: absolute; inset: 0; z-index: 5;
   background: linear-gradient(
