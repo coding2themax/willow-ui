@@ -22,6 +22,9 @@ vi.mock('../ui/ErrorBanner', () => ({
 }))
 
 import { createInquiry } from '../../api/inquiries'
+import type { Inquiry } from '../admin/types'
+
+const stubInquiry: Inquiry = { id: 1, name: '', email: '', date: '', status: 'New' }
 
 const mockCreateInquiry = vi.mocked(createInquiry)
 
@@ -43,7 +46,7 @@ describe('InquirySection', () => {
   })
 
   it('shows success state after a successful submission', async () => {
-    mockCreateInquiry.mockResolvedValue({} as any)
+    mockCreateInquiry.mockResolvedValue(stubInquiry)
     render(<InquirySection />)
     await fillRequiredFields()
     await userEvent.click(screen.getByRole('button', { name: /send inquiry/i }))
@@ -56,7 +59,7 @@ describe('InquirySection', () => {
 
   it('shows a spinner and disables button while submitting', async () => {
     let resolve: () => void
-    mockCreateInquiry.mockReturnValue(new Promise(r => { resolve = () => r({} as any) }))
+    mockCreateInquiry.mockReturnValue(new Promise(r => { resolve = () => r(stubInquiry) }))
 
     render(<InquirySection />)
     await fillRequiredFields()
