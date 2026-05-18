@@ -11,18 +11,24 @@ export default function Hero() {
 
   useEffect(() => {
     const layers: { ref: React.RefObject<HTMLDivElement | null>; speed: number }[] = [
-      { ref: skyRef, speed: 0.55 },
-      { ref: bgRef,  speed: 0.35 },
-      { ref: midRef, speed: 0.18 },
-      { ref: fgRef,  speed: 0.06 },
+      { ref: skyRef, speed: 0.22 },
+      { ref: bgRef,  speed: 0.15 },
+      { ref: midRef, speed: 0.1 },
+      { ref: fgRef,  speed: 0.05 },
     ]
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
     let rafId: number | null = null
     const update = () => {
       const scrollY = window.pageYOffset
       const heroH   = heroRef.current?.offsetHeight ?? 0
+      const maxShift = Math.min(heroH * 0.18, 140)
       if (scrollY <= heroH) {
         layers.forEach(({ ref, speed }) => {
-          if (ref.current) ref.current.style.transform = `translateY(${scrollY * speed}px)`
+          if (!ref.current) return
+          const y = Math.min(scrollY * speed, maxShift)
+          ref.current.style.transform = `translate3d(0, ${y}px, 0) scale(1.04)`
         })
       }
       rafId = null

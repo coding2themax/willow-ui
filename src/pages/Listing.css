@@ -9,8 +9,7 @@ nav {
   transition: background 0.3s;
 }
 .nav-logo {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 400;
   color: var(--brown-dark);
@@ -56,6 +55,7 @@ nav {
   inset: -30% 0;
   width: 100%;
   background-size: cover;
+  background-position-x: center;
   background-repeat: no-repeat;
   will-change: transform;
 }
@@ -81,6 +81,14 @@ nav {
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
 }
+
+/* Parallax layers are portrait assets; fitting by height on wider screens avoids the "squashed" feel. */
+@media (min-aspect-ratio: 5/4) {
+  .plx-layer {
+    background-size: auto 100%;
+  }
+}
+
 .hero-overlay {
   position: absolute; inset: 0; z-index: 5;
   background: linear-gradient(
@@ -108,14 +116,13 @@ nav {
   margin-bottom: 0.5rem;
 }
 .hero-name {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 8rem);
-  font-weight: 300;
+  font-weight: 400;
   color: #fff;
   line-height: 0.9;
   text-shadow: 0 4px 32px rgba(44,31,20,0.4);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 .hero-sub {
   font-size: 0.85rem;
@@ -212,10 +219,9 @@ section { padding: 6rem 5vw; }
   margin-bottom: 0.6rem;
 }
 .section-title {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--brown-dark);
   line-height: 1.1;
 }
@@ -470,9 +476,8 @@ footer {
   border-top: 1px solid rgba(255,255,255,0.06);
 }
 .footer-name {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 2rem; font-weight: 300;
+  font-family: var(--font-display);
+  font-size: 2rem; font-weight: 400;
   color: var(--cream); letter-spacing: 0.02em;
 }
 .footer-meta {

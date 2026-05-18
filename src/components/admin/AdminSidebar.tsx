@@ -52,7 +52,7 @@ export default function AdminSidebar({ activeTab, onTabChange, newCount }: Props
           <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" strokeWidth="1.2"/>
           <path d="M7.5 5v3l2 1.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
         </svg>
-        <span style={{ fontSize: '0.75rem', color: 'rgba(184,130,42,0.6)' }}>Last updated: Today</span>
+        <span style={{ fontSize: '0.75rem', color: 'rgba(184,85,31,0.6)' }}>Last updated: Today</span>
       </div>
     </nav>
   )

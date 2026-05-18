@@ -1,19 +1,57 @@
+@font-face {
+  font-family: 'Rye';
+  src: url('/fonts/Rye-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #faf6ef;
-  --cream2: #f2ebe0;
-  --brown-dark: #2c1f14;
-  --brown-mid: #5a3e28;
-  --brown-light: #8a6545;
-  --gold: #b8822a;
-  --gold-light: #d4a44a;
-  --text: #2c1f14;
-  --text-mid: #5a3e28;
-  --text-light: #8a7060;
-  --border: #ddd0be;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Jost', system-ui, sans-serif;
+  /* ── SANDSTONE NEUTRALS — backgrounds and surfaces ── */
+  --sand:        #f4ead7;   /* default page bg — bleached desert sand */
+  --sand-alt:    #ead9b8;   /* alternating section bg — adobe wall */
+  --sand-soft:   #f7f0df;   /* lightest tint */
+  --surface:     #fbf6ec;   /* card / form bg — sun-bleached canvas */
+  --border:      #d3b98a;   /* workhorse hairline — pale adobe edge */
+  --border-soft: #e5d3aa;   /* table-row separator */
+
+  /* Backwards-compat aliases */
+  --cream:       var(--sand);
+  --cream2:      var(--sand-alt);
+  --cream-soft:  var(--sand-soft);
+
+  /* ── SADDLE LEATHER DARKS — text and dark surfaces ── */
+  --brown-dark:  #3a1f12;   /* mesquite / saddle — primary text */
+  --brown-mid:   #6b3a1f;   /* tanned hide — secondary text */
+  --brown-light: #8e6a48;   /* worn leather — tertiary, captions */
+
+  /* ── COPPER / SUNSET — the warm accent ── */
+  --copper:       #b8551f;  /* burnt copper — Arizona state metal */
+  --copper-light: #d97a3e;  /* Sonoran sunset — on-dark version */
+  --rust:         #8b2e1f;  /* mesa-red rock — deepest accent */
+
+  /* Backwards-compat aliases */
+  --gold:        var(--copper);
+  --gold-light:  var(--copper-light);
+
+  /* ── TURQUOISE — Arizona state gemstone. Cool accent, used sparingly ── */
+  --turquoise:       #3f9fa3;
+  --turquoise-light: #7cc4c3;
+
+  /* ── SAGE / SAGUARO — botanical neutral ── */
+  --sage: #7d8466;
+
+  /* ── TEXT ── */
+  --text:       #3a1f12;
+  --text-mid:   #6b3a1f;
+  --text-light: #8e6a48;
+
+  /* ── TYPOGRAPHY ── */
+  --font-display: 'Rye', 'Cormorant Garamond', Georgia, serif;  /* western slab — wordmark, hero, section titles */
+  --font-serif:   'Cormorant Garamond', Georgia, serif;         /* secondary serif — stat numerals, italic notes */
+  --font-sans:    'Jost', system-ui, sans-serif;                /* body 300, eyebrows/labels 500 */
 }
 
 html { scroll-behavior: smooth; }

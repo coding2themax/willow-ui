@@ -47,7 +47,7 @@ export default function LoginGate({ children }: Props) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#1a1208',
+      background: '#1e0f08',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -57,14 +57,13 @@ export default function LoginGate({ children }: Props) {
         width: '100%',
         maxWidth: 380,
         padding: '2.5rem',
-        background: '#211809',
+        background: '#2a170c',
         border: '1px solid rgba(255,255,255,0.07)',
       }}>
         <div style={{
-          fontFamily: 'var(--font-serif)',
-          fontStyle: 'italic',
+          fontFamily: 'var(--font-display)',
           fontSize: '2rem',
-          fontWeight: 300,
+          fontWeight: 400,
           color: 'var(--cream)',
           marginBottom: '0.25rem',
           letterSpacing: '0.02em',
@@ -90,7 +89,7 @@ export default function LoginGate({ children }: Props) {
               fontSize: '0.6rem',
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
-              color: 'rgba(184,130,42,0.8)',
+              color: 'rgba(184,85,31,0.8)',
               marginBottom: '0.5rem',
             }}>
               Admin Token
@@ -105,7 +104,7 @@ export default function LoginGate({ children }: Props) {
                 width: '100%',
                 height: 40,
                 padding: '0 12px',
-                background: '#2c1f14',
+                background: '#3a1f12',
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 2,
                 color: 'var(--cream)',
