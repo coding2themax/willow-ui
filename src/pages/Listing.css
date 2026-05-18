@@ -61,32 +61,25 @@ nav {
 }
 .plx-sky {
   z-index: 1;
-  background-image: url('/parallax/sky.jpg');
+  background-image: url('/parallax/sky.png');
   background-position: center 20%;
 }
 .plx-bg {
   z-index: 2;
-  background-image: url('/parallax/background.jpg');
+  background-image: url('/parallax/background.png');
   background-position: center 40%;
 }
 .plx-mid {
   z-index: 3;
-  background-image: url('/parallax/midground.jpg');
+  background-image: url('/parallax/midground.png');
   background-position: center 50%;
 }
 .plx-fg {
   z-index: 4;
-  background-image: url('/parallax/foreground.jpg');
+  background-image: url('/parallax/foreground.png');
   background-position: center 80%;
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 80%);
-}
-
-/* Parallax layers are portrait assets; fitting by height on wider screens avoids the "squashed" feel. */
-@media (min-aspect-ratio: 5/4) {
-  .plx-layer {
-    background-size: auto 100%;
-  }
 }
 
 .hero-overlay {
