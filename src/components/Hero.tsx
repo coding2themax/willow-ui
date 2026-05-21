@@ -44,10 +44,7 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top" ref={heroRef}>
-      <div className="plx-layer plx-sky" ref={skyRef} />
       <div className="plx-layer plx-bg"  ref={bgRef} />
-      <div className="plx-layer plx-mid" ref={midRef} />
-      <div className="plx-layer plx-fg"  ref={fgRef} />
       <div className="hero-overlay" />
       {IS_SOLD && (
         <div style={{
