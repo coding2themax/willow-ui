@@ -6,6 +6,7 @@ import AboutSection from '../components/AboutSection'
 import GallerySection from '../components/GallerySection'
 import Lightbox from '../components/Lightbox'
 import VideoSection from '../components/VideoSection'
+import BookViewingSection from '../components/BookViewingSection'
 import InquirySection from '../components/InquirySection'
 import Footer from '../components/Footer'
 import './Listing.css'
@@ -36,6 +37,7 @@ export default function Listing() {
       <GallerySection onOpen={openLightbox} />
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={closeLightbox} />}
       <VideoSection />
+      <BookViewingSection />
       <InquirySection />
       <Footer />
     </>
