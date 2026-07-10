@@ -7,6 +7,7 @@ export default function Nav() {
         <a href="#about">About</a>
         <a href="#gallery">Gallery</a>
         <a href="#video">Video</a>
+        <a href="#book-viewing">Book a Viewing</a>
         <a href="#inquiry" className="nav-cta">Inquire</a>
       </div>
     </nav>
