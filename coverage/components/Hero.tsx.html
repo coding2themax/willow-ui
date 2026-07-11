@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">87.87% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/27</span>
+                <span class='fraction'>29/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/12</span>
+                <span class='fraction'>7/14</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/23</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -146,7 +146,10 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,11 +169,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -185,9 +194,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,18 +248,24 @@ export default function Hero() {
 &nbsp;
   useEffect(() =&gt; {
     const layers: { ref: React.RefObject&lt;HTMLDivElement | null&gt;; speed: number }[] = [
-      { ref: skyRef, speed: 0.55 },
-      { ref: bgRef,  speed: 0.35 },
-      { ref: midRef, speed: 0.18 },
-      { ref: fgRef,  speed: 0.06 },
+      { ref: skyRef, speed: 0.22 },
+      { ref: bgRef,  speed: 0.15 },
+      { ref: midRef, speed: 0.1 },
+      { ref: fgRef,  speed: 0.05 },
     ]
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (prefersReducedMotion) <span class="cstat-no" title="statement not covered" >return</span>
+&nbsp;
     let rafId: number | null = null
     const update = () =&gt; {
       const scrollY = window.pageYOffset
       const heroH   = heroRef.current?.offsetHeight ?? <span class="branch-1 cbranch-no" title="branch not covered" >0</span>
+      const maxShift = Math.min(heroH * 0.18, 140)
       <span class="missing-if-branch" title="else path not taken" >E</span>if (scrollY &lt;= heroH) {
         layers.forEach(({ ref, speed }) =&gt; {
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (ref.current) ref.current.style.transform = `translateY(${scrollY * speed}px)`
+          if (!ref.current) return
+          const y = Math.min(scrollY * speed, maxShift)
+          ref.current.style.transform = `translate3d(0, ${y}px, 0) scale(1.04)`
         })
       }
       rafId = null
@@ -269,10 +281,7 @@ export default function Hero() {
 &nbsp;
   return (
     &lt;section className="hero" id="top" ref={heroRef}&gt;
-      &lt;div className="plx-layer plx-sky" ref={skyRef} /&gt;
       &lt;div className="plx-layer plx-bg"  ref={bgRef} /&gt;
-      &lt;div className="plx-layer plx-mid" ref={midRef} /&gt;
-      &lt;div className="plx-layer plx-fg"  ref={fgRef} /&gt;
       &lt;div className="hero-overlay" /&gt;
       {IS_SOLD &amp;&amp; (
 <span class="branch-1 cbranch-no" title="branch not covered" >        &lt;div style={{</span>
@@ -319,7 +328,7 @@ export default function Hero() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-16T08:27:27.124Z
+                at 2026-07-11T00:06:52.872Z
             </div>
         <script src="../prettify.js"></script>
         <script>
