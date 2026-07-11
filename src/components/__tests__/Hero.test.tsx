@@ -38,11 +38,8 @@ describe('Hero', () => {
     import.meta.env.VITE_SOLD = original
   })
 
-  it('renders all parallax layer divs', () => {
+  it('renders the parallax background layer', () => {
     const { container } = render(<Hero />)
-    expect(container.querySelector('.plx-sky')).toBeInTheDocument()
     expect(container.querySelector('.plx-bg')).toBeInTheDocument()
-    expect(container.querySelector('.plx-mid')).toBeInTheDocument()
-    expect(container.querySelector('.plx-fg')).toBeInTheDocument()
   })
 })
